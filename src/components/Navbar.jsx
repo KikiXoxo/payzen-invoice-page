@@ -48,7 +48,7 @@ const Navbar = () => {
           <PiSunFill className='w-5 h-5 hover:text-gray-300 transition' />
         </button>
 
-        <AiFillBell className='w-5 h-5 hover:text-gray-700 hover:text-gray-300 transition cursor-pointer' />
+        <AiFillBell className='w-5 h-5 hover:text-gray-700 dark:hover:text-gray-300 transition cursor-pointer' />
 
         <img
           src='/profile.jpg'
