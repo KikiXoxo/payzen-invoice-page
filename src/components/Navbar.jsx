@@ -29,7 +29,7 @@ const Navbar = () => {
                 `text-sm font-bold py-[16px] h-12 ${
                   isActive
                     ? 'text-blue-600 border-b-2 border-blue-600 dark:text-indigo-300 dark:border-indigo-300'
-                    : 'text-gray-700 dark:text-gray-100 hover:text-black'
+                    : 'text-gray-700 dark:text-gray-100 hover:text-black dark:hover:text-gray-300'
                 }`
               }
             >
