@@ -141,7 +141,7 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
         {/* Body */}
         <div className='flex flex-1 overflow-y-auto'>
           {/* Main Form Card */}
-          <div className='w-4/5 p-4'>
+          <div className='w-3/4 p-4'>
             <div className='border border-gray-400 dark:border-gray-600 rounded-lg p-6'>
               <div className='flex justify-between items-start gap-6 w-full'>
                 {/* Logo Upload Box */}
@@ -314,10 +314,86 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
           </div>
 
           {/* Customization Panel */}
-          <div className='w-1/5 p-4'>
-            <h3 className='text-sm font-medium text-gray-700 dark:text-gray-300'>
-              Customization
-            </h3>
+          <div className='w-1/4 py-4 pr-2 space-y-2'>
+            <div className='bg-gray-50 dark:bg-gray-900 rounded-md px-3 py-2 flex items-center justify-between'>
+              <p className='text-xs font-semibold text-gray-700 dark:text-gray-200'>
+                Preview Invoice
+              </p>
+
+              {/* Toggle */}
+              <div className='w-10 h-5 bg-gray-400 dark:bg-gray-600 rounded-full relative cursor-pointer'>
+                <div className='w-4 h-4 bg-white dark:bg-gray-300 rounded-full absolute left-0.5 top-0.5'></div>
+              </div>
+            </div>
+
+            {/* Customization Section */}
+            <div className='bg-gray-50 dark:bg-gray-900 rounded-md px-3 py-3'>
+              <div className='flex items-center justify-between'>
+                <h3 className='text-sm font-bold text-gray-800 dark:text-gray-200'>
+                  Customization
+                </h3>
+                <FaChevronDown className='text-gray-600 dark:text-gray-300 rotate-180 text-sm' />
+              </div>
+
+              <div className='mt-4'>
+                <div className='flex items-center justify-between'>
+                  <p className='text-xs font-medium text-gray-700 dark:text-gray-300'>
+                    Template style
+                  </p>
+
+                  <div className='flex items-center bg-gray-200 dark:bg-gray-950 rounded-full p-1'>
+                    <div className='px-2 text-[11px] font-semibold text-gray-800 dark:text-gray-300'>
+                      Simple
+                    </div>
+                    <div className='px-2 py-[2px] text-[11px] font-bold bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-full'>
+                      Modern
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Font Section */}
+              <div className='mt-2'>
+                <div className='flex items-center justify-between'>
+                  <p className='text-xs font-medium text-gray-700 dark:text-gray-300'>
+                    Font
+                  </p>
+
+                  <div className='flex items-center bg-gray-200 dark:bg-gray-950 rounded-full p-1'>
+                    <div className='px-2 text-[11px] font-semibold text-gray-800 dark:text-gray-300'>
+                      Classic
+                    </div>
+                    <div className='px-2 py-[2px] text-[11px] font-bold bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-full'>
+                      Modern
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Record Invoice */}
+            <div className='bg-gray-50 text-gray-800 font-bold dark:bg-gray-900 rounded-md px-3 py-3 space-y-3'>
+              <div className='flex items-center justify-between'>
+                <h3 className='text-sm dark:text-gray-200'>
+                  Record the invoice
+                </h3>
+                <FaChevronDown className='text-gray-600 dark:text-gray-300 rotate-180 text-sm' />
+              </div>
+
+              <label className='flex items-center gap-2 mt-2'>
+                <input type='checkbox' className='w-4 h-4' />
+                <span className='text-xs dark:text-gray-300'>
+                  I have received the payment.
+                </span>
+              </label>
+
+              <label className='flex items-center gap-2'>
+                <input type='checkbox' className='w-4 h-4' />
+                <span className='text-xs dark:text-gray-300'>
+                  Mark it as sent.
+                </span>
+              </label>
+            </div>
           </div>
         </div>
       </div>
