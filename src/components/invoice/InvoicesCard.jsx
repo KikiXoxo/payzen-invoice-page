@@ -1,12 +1,14 @@
-// In InvoicesCard.jsx
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import InvoicesList from './InvoicesList';
+import AddInvoiceModal from '../invoice/AddInvoiceModal';
 import { useInvoicesStore } from '../../stores/invoicesStore';
 import { FaRegCalendarAlt, FaSearch, FaPlus } from 'react-icons/fa';
 
 const tabs = ['All', 'Outstanding', 'Paid', 'Uncollectible'];
 
 const InvoicesCard = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   // Selectors to prevent unnecessary re-renders
   const fetchInvoices = useInvoicesStore(state => state.fetchInvoices);
   const invoices = useInvoicesStore(state => state.invoices);
@@ -66,7 +68,11 @@ const InvoicesCard = () => {
           </div>
         </div>
 
-        <button className='flex items-center gap-2 bg-blue-600 dark:text-gray-800 dark:bg-indigo-300 hover:bg-blue-700 dark:hover:bg-indigo-600 text-white px-4 py-2 rounded-full text-sm transition'>
+        {/* Open Invoice Modal */}
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className='flex items-center gap-2 bg-blue-600 dark:text-gray-800 dark:bg-indigo-300 hover:bg-blue-700 dark:hover:bg-indigo-200 text-white px-4 py-2 rounded-full text-sm transition'
+        >
           <FaPlus className='text-xs' />
           New Invoice
         </button>
@@ -82,7 +88,7 @@ const InvoicesCard = () => {
               className={`cursor-pointer pb-2 font-medium text-sm ${
                 selectedStatusTab === tab
                   ? 'text-blue-600 dark:text-indigo-300 border-b-2 border-blue-600 dark:border-indigo-300'
-                  : 'text-gray-600 dark:text-gray-300'
+                  : 'text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 '
               }`}
             >
               {tab} ({counts[tab]})
@@ -147,6 +153,12 @@ const InvoicesCard = () => {
         invoices={filteredInvoices}
         loading={loading}
         error={error}
+      />
+
+      {/* New Invoice Modal */}
+      <AddInvoiceModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
       />
     </div>
   );
