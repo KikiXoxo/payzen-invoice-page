@@ -1,7 +1,13 @@
 import InvoicesCard from '../components/invoice/InvoicesCard';
+import Summary from '../components/Summary';
 
 const Invoices = () => {
-  return <InvoicesCard />;
+  return (
+    <>
+      <Summary />
+      <InvoicesCard />
+    </>
+  );
 };
 
 export default Invoices;
