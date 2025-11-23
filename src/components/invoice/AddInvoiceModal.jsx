@@ -3,6 +3,7 @@ import { FaChevronDown, FaImage, FaCog } from 'react-icons/fa';
 import InvoiceItemsList from './InvoiceItemsList';
 import { useInvoicesStore } from '../../stores/invoicesStore';
 import { emptyItem, buildInvoice } from '../../helpers/invoiceBuilder';
+import { clients } from '../../data/modalData';
 
 const AddInvoiceModal = ({ isOpen, onClose }) => {
   const addInvoice = useInvoicesStore(state => state.addInvoice);
@@ -38,9 +39,21 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
 
   // Handle save
   const handleSaveAndSend = () => {
+    if (!form.clientName || !form.issueDate || !form.dueDate) {
+      alert('Please select a client and fill in the dates');
+      return;
+    }
+
+    for (let itm of form.items) {
+      if (!itm.description) {
+        alert('Please select all invoice items');
+        return;
+      }
+    }
+
     const invoiceToSave = buildInvoice(nextInvoiceId, {
       ...form,
-      status: 'Paid', // adjust later
+      status: 'Paid',
     });
 
     addInvoice(invoiceToSave);
@@ -138,7 +151,12 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
                     required
                     className='w-full mt-1 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-800'
                   >
-                    <option value=''>Select or add a client</option>
+                    <option value=''>Select a client</option>
+                    {clients.map((client, i) => (
+                      <option key={i} value={client}>
+                        {client}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
