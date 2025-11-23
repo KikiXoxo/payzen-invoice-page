@@ -64,8 +64,19 @@ const InvoicesCard = () => {
           <select className='min-w-[140px] bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm focus:outline-none focus:ring-0 transition'>
             <option>All Clients</option>
           </select>
-          <select className='min-w-[140px] bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm focus:outline-none focus:ring-0 transition'>
-            <option>All Status</option>
+
+          {/* Status Dropdown */}
+          <select
+            value={selectedStatusTab}
+            onChange={e => setSelectedStatusTab(e.target.value)}
+            className='min-w-[140px] bg-white dark:bg-gray-800 border
+             border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm
+             focus:outline-none focus:ring-0 transition'
+          >
+            <option value='All'>All Status</option>
+            <option value='Outstanding'>Outstanding</option>
+            <option value='Paid'>Paid</option>
+            <option value='Uncollectible'>Uncollectible</option>
           </select>
 
           <div className='min-w-[140px] flex items-center justify-between px-3 h-8 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 cursor-pointer select-none transition'>
