@@ -8,7 +8,21 @@ import {
   getStatusStyles,
 } from '../../helpers/utils';
 
-const InvoicesList = ({ invoices }) => {
+const InvoicesList = ({ invoices, loading, error }) => {
+  // Loading State
+  if (loading)
+    return (
+      <p className='p-6 text-center text-gray-500 dark:text-gray-300'>
+        Loading...
+      </p>
+    );
+
+  // Error state
+  if (error)
+    return (
+      <p className='p-6 text-center text-red-500 dark:text-red-400'>{error}</p>
+    );
+
   return (
     <div className='w-full overflow-x-auto'>
       <table className='w-full text-xs text-left border-collapse dark:text-gray-300'>
