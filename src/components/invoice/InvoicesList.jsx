@@ -1,23 +1,17 @@
 import { FaChevronDown } from 'react-icons/fa';
 import { IoEllipsisHorizontal } from 'react-icons/io5';
 import { GoDotFill } from 'react-icons/go';
-import dayjs from 'dayjs';
 import {
   formatCurrency,
   formatInvoiceId,
   getStatusStyles,
 } from '../../helpers/utils';
+import SkeletonLoader from '../SkeletonLoader';
+import dayjs from 'dayjs';
 
 const InvoicesList = ({ invoices, loading, error }) => {
-  // Loading State
-  if (loading)
-    return (
-      <p className='p-6 text-center text-gray-500 dark:text-gray-300'>
-        Loading...
-      </p>
-    );
+  if (loading) return <SkeletonLoader />;
 
-  // Error state
   if (error)
     return (
       <p className='p-6 text-center text-red-500 dark:text-red-400'>{error}</p>
