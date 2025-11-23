@@ -59,6 +59,7 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
     });
 
     setLogoPreview(null);
+    setIsPreview(false);
     onClose();
   };
 
