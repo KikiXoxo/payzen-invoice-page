@@ -25,7 +25,13 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
   const updateItem = (index, field, value) =>
     setForm(prev => {
       const items = [...prev.items];
-      items[index] = { ...items[index], [field]: value };
+      let newValue = value;
+
+      // Cap quantity at 20 and discount at 100
+      if (field === 'quantity') newValue = Math.min(Number(value) || 0, 20);
+      if (field === 'discount') newValue = Math.min(Number(value) || 0, 100);
+
+      items[index] = { ...items[index], [field]: newValue };
       return { ...prev, items };
     });
 
@@ -54,10 +60,21 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
 
     const invoiceToSave = buildInvoice(nextInvoiceId, {
       ...form,
-      status: 'Paid',
+      status: 'Paid', // change later
     });
 
     addInvoice(invoiceToSave);
+
+    // Reset form
+    setForm({
+      clientName: '',
+      issueDate: '',
+      dueDate: '',
+      invoiceNumber: '',
+      purchaseOrder: '',
+      items: [emptyItem()],
+    });
+
     onClose();
   };
 
