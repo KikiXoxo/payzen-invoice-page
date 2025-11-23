@@ -45,43 +45,55 @@ const InvoicePreview = ({ form, logoPreview, nextInvoiceId }) => {
         </div>
       </div>
 
-      <div className='mt-8 grid grid-cols-3 gap-x-8 gap-y-1'>
-        <div>
-          <label className='text-xs font-medium text-gray-700 dark:text-gray-300'>
+      <div className='mt-8 grid grid-cols-3 gap-x-8 gap-y-4'>
+        <div className='text-sm flex flex-col'>
+          <label className='font-bold text-gray-700 dark:text-gray-300'>
             Bill To
           </label>
-          <p className='text-sm'>{form.clientName || 'Client Name'}</p>
+          <p>{form.clientName || 'Client Name'}</p>
+          <p>House 12, Apple Road</p>
+          <p>The Isles, Velaris</p>
+          <p>Italy</p>
         </div>
-        <div>
-          <label className='text-xs font-medium text-gray-700 dark:text-gray-300'>
-            Issue Date
-          </label>
-          <p className='text-sm'>
-            {form.issueDate
-              ? dayjs(form.issueDate).format('DD MMM YYYY')
-              : 'N/A'}
-          </p>
-        </div>
-        <div>
-          <label className='text-xs font-medium text-gray-700 dark:text-gray-300'>
-            Invoice Number
-          </label>
-          <p className='text-sm'>{formatInvoiceId(nextInvoiceId)}</p>
-        </div>
-        <div></div>
-        <div>
-          <label className='text-xs font-medium text-gray-700 dark:text-gray-300'>
-            Due Date
-          </label>
-          <p className='text-sm'>
-            {form.dueDate ? dayjs(form.dueDate).format('DD MMM YYYY') : 'N/A'}
-          </p>
-        </div>
-        <div>
-          <label className='text-xs font-medium text-gray-700 dark:text-gray-300'>
-            Purchase Order
-          </label>
-          <p className='text-sm'>{form.purchaseOrder || 'PO #00000'}</p>
+
+        <div className='col-span-2 grid grid-cols-2 gap-x-8 gap-y-1'>
+          {/* Issue Date */}
+          <div>
+            <label className='text-xs font-bold text-gray-700 dark:text-gray-300'>
+              Issue Date
+            </label>
+            <p className='text-sm'>
+              {form.issueDate
+                ? dayjs(form.issueDate).format('DD MMM YYYY')
+                : 'N/A'}
+            </p>
+          </div>
+
+          {/* Invoice Number */}
+          <div className='text-right'>
+            <label className='text-xs font-bold text-gray-700 dark:text-gray-300'>
+              Invoice Number
+            </label>
+            <p className='text-sm'>#{formatInvoiceId(nextInvoiceId)}</p>
+          </div>
+
+          {/* Due Date */}
+          <div>
+            <label className='text-xs font-bold text-gray-700 dark:text-gray-300'>
+              Due Date
+            </label>
+            <p className='text-sm'>
+              {form.dueDate ? dayjs(form.dueDate).format('DD MMM YYYY') : 'N/A'}
+            </p>
+          </div>
+
+          {/* Purchase Order */}
+          <div className='text-right'>
+            <label className='text-xs font-bold text-gray-700 dark:text-gray-300'>
+              Purchase Order
+            </label>
+            <p className='text-sm'>{form.purchaseOrder || 'PO #00000'}</p>
+          </div>
         </div>
       </div>
 
