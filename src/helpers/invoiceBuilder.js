@@ -21,7 +21,7 @@ export const calculateTotals = invoices => {
 // Build an empty invoice item row
 export const emptyItem = () => ({
   description: '',
-  quantity: 1,
+  quantity: 0,
   rate: 0,
   discount: 0, // percentage
 });

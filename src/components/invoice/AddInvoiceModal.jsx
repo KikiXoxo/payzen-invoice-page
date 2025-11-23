@@ -28,9 +28,15 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
       const items = [...prev.items];
       let newValue = value;
 
-      // Cap quantity at 20 and discount at 100
-      if (field === 'quantity') newValue = Math.min(Number(value) || 0, 20);
-      if (field === 'discount') newValue = Math.min(Number(value) || 0, 100);
+      // Convert number fields
+      if (['quantity', 'rate', 'discount'].includes(field)) {
+        newValue = Number(value) || 0;
+      }
+
+      // Max and min values
+      if (field === 'quantity') newValue = Math.max(0, Math.min(newValue, 20));
+      if (field === 'discount') newValue = Math.max(0, Math.min(newValue, 100));
+      if (field === 'rate') newValue = Math.max(0, newValue); // min 0
 
       items[index] = { ...items[index], [field]: newValue };
       return { ...prev, items };
@@ -40,10 +46,13 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
     setForm(prev => ({ ...prev, items: [...prev.items, emptyItem()] }));
 
   const removeItem = index =>
-    setForm(prev => ({
-      ...prev,
-      items: prev.items.filter((_, i) => i !== index),
-    }));
+    setForm(prev => {
+      if (prev.items.length === 1) return prev; // Prevent deleting last item in list
+      return {
+        ...prev,
+        items: prev.items.filter((_, i) => i !== index),
+      };
+    });
 
   // Handle save
   const handleSaveAndSend = () => {
@@ -63,6 +72,14 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
       ...form,
       status: 'Paid', // change later
     });
+
+    // Prevent submit if invoice total is 0 or less
+    if (!invoiceToSave.total || invoiceToSave.total <= 0) {
+      alert(
+        'Invoice total must be greater than $0.00. Add items or increase amounts.'
+      );
+      return;
+    }
 
     addInvoice(invoiceToSave);
 
