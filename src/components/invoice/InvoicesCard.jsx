@@ -2,7 +2,7 @@
 import { useEffect, useMemo } from 'react';
 import InvoicesList from './InvoicesList';
 import { useInvoicesStore } from '../../stores/invoicesStore';
-import { FaRegCalendarAlt } from 'react-icons/fa';
+import { FaRegCalendarAlt, FaSearch, FaPlus } from 'react-icons/fa';
 
 const tabs = ['All', 'Outstanding', 'Paid', 'Uncollectible'];
 
@@ -56,21 +56,45 @@ const InvoicesCard = () => {
 
   return (
     <div className='bg-white dark:bg-gray-800 py-4 md:py-6 px-2 md:px-4 rounded-md transition'>
-      {/* Active Tabs */}
-      <div className='flex items-start justify-start gap-6 border-b border-gray-300 dark:border-gray-700 mb-4 transition'>
-        {tabs.map(tab => (
-          <div
-            key={tab}
-            onClick={() => setSelectedStatusTab(tab)}
-            className={`cursor-pointer pb-2 font-medium text-sm ${
-              selectedStatusTab === tab
-                ? 'text-blue-600 dark:text-indigo-300 border-b-2 border-blue-600 dark:border-indigo-300'
-                : 'text-gray-600 dark:text-gray-300'
-            }`}
-          >
-            {tab} ({counts[tab]})
+      <div className='flex items-center justify-between pb-3 mb-2'>
+        <div className='flex items-start gap-6'>
+          <div className='pb-1 text-lg font-bold text-blue-600 dark:text-gray-100 border-b-2 border-blue-600 dark:border-indigo-300 cursor-pointer'>
+            Invoices
           </div>
-        ))}
+          <div className='pb-2 text-lg font-medium text-gray-600 dark:text-gray-300'>
+            Drafts
+          </div>
+        </div>
+
+        <button className='flex items-center gap-2 bg-blue-600 dark:text-gray-800 dark:bg-indigo-300 hover:bg-blue-700 dark:hover:bg-indigo-600 text-white px-4 py-2 rounded-full text-sm transition'>
+          <FaPlus className='text-xs' />
+          New Invoice
+        </button>
+      </div>
+
+      <div className='flex items-center justify-between gap-4 mb-4 border-b border-gray-300 dark:border-gray-700 transition'>
+        {/* Active Tabs */}
+        <div className='flex items-start justify-start gap-6'>
+          {tabs.map(tab => (
+            <div
+              key={tab}
+              onClick={() => setSelectedStatusTab(tab)}
+              className={`cursor-pointer pb-2 font-medium text-sm ${
+                selectedStatusTab === tab
+                  ? 'text-blue-600 dark:text-indigo-300 border-b-2 border-blue-600 dark:border-indigo-300'
+                  : 'text-gray-600 dark:text-gray-300'
+              }`}
+            >
+              {tab} ({counts[tab]})
+            </div>
+          ))}
+        </div>
+
+        {/* Search */}
+        <div className='flex items-center gap-2 text-gray-500 dark:text-gray-300 text-sm'>
+          <FaSearch />
+          <span>Try invoice# or client name</span>
+        </div>
       </div>
 
       {/* Dropdowns / Calendar / Sort */}
