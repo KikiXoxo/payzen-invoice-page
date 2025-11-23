@@ -1,10 +1,12 @@
 import { create } from 'zustand';
 import { getInvoices } from '../api/invoicesApi';
+import { calculateTotals } from '../helpers/invoiceBuilder';
 
 export const useInvoicesStore = create(set => ({
   invoices: [],
   loading: false,
   error: null,
+  nextInvoiceId: 1,
 
   totals: {
     overdue: 0,
@@ -19,27 +21,16 @@ export const useInvoicesStore = create(set => ({
 
     try {
       const data = await getInvoices();
+      const totals = calculateTotals(data);
 
-      // Calculate totals
-      const totals = {
-        overdue: 0,
-        outstanding: 0,
-        paid: 0,
-        uncollectible: 0,
-      };
-
-      data.forEach(invoice => {
-        const amount = invoice.total || 0;
-
-        if (invoice.status === 'Overdue') totals.overdue += amount;
-        if (invoice.status === 'Outstanding') totals.outstanding += amount;
-        if (invoice.status === 'Paid') totals.paid += amount;
-        if (invoice.status === 'Uncollectible') totals.uncollectible += amount;
-      });
+      // Determine nextInvoiceId based on fetched data
+      const maxId =
+        data.length > 0 ? Math.max(...data.map(inv => Number(inv.id))) : 0;
 
       set({
         invoices: data,
-        totals: totals,
+        totals,
+        nextInvoiceId: maxId + 1,
       });
     } catch (err) {
       set({ error: 'Failed to load invoices' });
@@ -49,10 +40,23 @@ export const useInvoicesStore = create(set => ({
   },
 
   // Status Tabs
-  selectedStatusTab: 'All', // default active tab
+  selectedStatusTab: 'All',
   setSelectedStatusTab: tab => set({ selectedStatusTab: tab }),
 
   // Sorting
   sortOrder: 'default',
   setSortOrder: order => set({ sortOrder: order }),
+
+  // Add invoice
+  addInvoice: invoice =>
+    set(state => {
+      const newInvoice = { ...invoice, id: state.nextInvoiceId };
+      const invoices = [...state.invoices, newInvoice];
+
+      return {
+        invoices,
+        totals: calculateTotals(invoices), // recalculate totals
+        nextInvoiceId: state.nextInvoiceId + 1,
+      };
+    }),
 }));

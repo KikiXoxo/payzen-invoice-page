@@ -1,11 +1,56 @@
+import { useState } from 'react';
 import { FaChevronDown, FaImage, FaCog } from 'react-icons/fa';
 import InvoiceItemsList from './InvoiceItemsList';
+import { useInvoicesStore } from '../../stores/invoicesStore';
+import { emptyItem, buildInvoice } from '../../helpers/invoiceBuilder';
 
 const AddInvoiceModal = ({ isOpen, onClose }) => {
+  const addInvoice = useInvoicesStore(state => state.addInvoice);
+  const nextInvoiceId = useInvoicesStore(state => state.nextInvoiceId);
+
+  const [form, setForm] = useState({
+    clientName: '',
+    issueDate: '',
+    dueDate: '',
+    invoiceNumber: '',
+    purchaseOrder: '',
+    items: [emptyItem()],
+  });
+
+  const updateField = (field, value) =>
+    setForm(prev => ({ ...prev, [field]: value }));
+
+  const updateItem = (index, field, value) =>
+    setForm(prev => {
+      const items = [...prev.items];
+      items[index] = { ...items[index], [field]: value };
+      return { ...prev, items };
+    });
+
+  const addItemRow = () =>
+    setForm(prev => ({ ...prev, items: [...prev.items, emptyItem()] }));
+
+  const removeItem = index =>
+    setForm(prev => ({
+      ...prev,
+      items: prev.items.filter((_, i) => i !== index),
+    }));
+
+  // Handle save
+  const handleSaveAndSend = () => {
+    const invoiceToSave = buildInvoice(nextInvoiceId, {
+      ...form,
+      status: 'Paid', // adjust later
+    });
+
+    addInvoice(invoiceToSave);
+    onClose();
+  };
+
   if (!isOpen) return null;
 
   return (
-    <div className='fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-5'>
+    <div className='fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50'>
       <div className='bg-white dark:bg-gray-800 w-full max-w-6xl h-[90vh] rounded-xl shadow-lg flex flex-col overflow-hidden'>
         {/* Header */}
         <div className='flex items-center justify-between px-6 py-4 border-b border-gray-300 dark:border-gray-700 flex-shrink-0'>
@@ -23,7 +68,10 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
             <button className='px-4 py-2 border border-blue-600 dark:border-indigo-300 text-blue-600 dark:text-indigo-300 rounded-full text-sm'>
               Save as Draft
             </button>
-            <button className='flex items-center gap-2 px-4 py-2 bg-blue-600 dark:bg-indigo-300 text-white dark:text-gray-800 hover:bg-blue-700 dark:hover:bg-indigo-200 rounded-full text-sm'>
+            <button
+              onClick={handleSaveAndSend}
+              className='flex items-center gap-2 px-4 py-2 bg-blue-600 dark:bg-indigo-300 text-white dark:text-gray-800 hover:bg-blue-700 dark:hover:bg-indigo-200 rounded-full text-sm'
+            >
               Save and Sent
               <FaChevronDown className='text-xs' />
             </button>
@@ -39,11 +87,9 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
                 {/* Logo Upload Box */}
                 <div className='w-[200px] h-[120px] bg-gray-50 dark:bg-gray-900 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-md flex flex-col items-center justify-center text-center px-2'>
                   <FaImage className='text-3xl text-gray-500 dark:text-gray-400 mb-2' />
-
                   <p className='text-xs text-gray-600 dark:text-gray-300'>
                     Drag your Logo here, or
                   </p>
-
                   <button className='text-xs text-blue-600 dark:text-indigo-300 hover:text-blue-700'>
                     select a file
                   </button>
@@ -74,7 +120,7 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
                       Amount Due (USD)
                     </p>
                     <p className='text-3xl font-semibold text-gray-900 dark:text-gray-100'>
-                      $0.00
+                      ${buildInvoice(0, form).total.toFixed(2)}
                     </p>
                   </div>
                 </div>
@@ -87,10 +133,12 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
                     Bill To <span className='text-red-500'>*</span>
                   </label>
                   <select
+                    value={form.clientName}
+                    onChange={e => updateField('clientName', e.target.value)}
                     required
                     className='w-full mt-1 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-800'
                   >
-                    <option>Select or add a client</option>
+                    <option value=''>Select or add a client</option>
                   </select>
                 </div>
 
@@ -101,6 +149,8 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
                   </label>
                   <input
                     type='date'
+                    value={form.issueDate}
+                    onChange={e => updateField('issueDate', e.target.value)}
                     required
                     className='w-full mt-1 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-800'
                   />
@@ -114,8 +164,11 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
                   <div className='relative'>
                     <input
                       type='text'
-                      placeholder='00001'
-                      required
+                      value={nextInvoiceId}
+                      onChange={e =>
+                        updateField('invoiceNumber', e.target.value)
+                      }
+                      disabled
                       className='w-full mt-1 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-800'
                     />
                     <FaCog className='absolute right-2 top-2.5 text-gray-700 dark:text-gray-500' />
@@ -132,6 +185,8 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
                   </label>
                   <input
                     type='date'
+                    value={form.dueDate}
+                    onChange={e => updateField('dueDate', e.target.value)}
                     required
                     className='w-full mt-1 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-800'
                   />
@@ -144,6 +199,8 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
                   </label>
                   <input
                     type='text'
+                    value={form.purchaseOrder}
+                    onChange={e => updateField('purchaseOrder', e.target.value)}
                     placeholder='e.g. PO #00023'
                     className='w-full mt-1 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-800'
                   />
@@ -152,7 +209,13 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
 
               <div className='mt-6 border-b-[3px] border-gray-600 dark:border-gray-400'></div>
 
-              <InvoiceItemsList />
+              {/* Invoice Items */}
+              <InvoiceItemsList
+                items={form.items}
+                updateItem={updateItem}
+                addItem={addItemRow}
+                removeItem={removeItem}
+              />
             </div>
           </div>
 
