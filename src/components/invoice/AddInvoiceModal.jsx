@@ -4,12 +4,15 @@ import { useInvoicesStore } from '../../stores/invoicesStore';
 import { emptyItem, buildInvoice } from '../../helpers/invoiceBuilder';
 import InvoiceEditor from './InvoiceEditor';
 import InvoicePreview from './InvoicePreview';
+import dayjs from 'dayjs';
 
 const AddInvoiceModal = ({ isOpen, onClose }) => {
   const addInvoice = useInvoicesStore(state => state.addInvoice);
   const nextInvoiceId = useInvoicesStore(state => state.nextInvoiceId);
   const [logoPreview, setLogoPreview] = useState(null);
   const [isPreview, setIsPreview] = useState(false);
+  const [markAsSent, setMarkAsSent] = useState(false);
+  const [receivedPayment, setReceivedPayment] = useState(false);
 
   const [form, setForm] = useState({
     clientName: '',
@@ -33,9 +36,24 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
       }
     }
 
+    if (!markAsSent) {
+      alert('Mark invoice as sent first');
+      return;
+    }
+
+    // Determine status
+    const today = dayjs().startOf('day');
+    let status = 'Outstanding';
+
+    if (receivedPayment) {
+      status = 'Paid';
+    } else if (form.dueDate && dayjs(form.dueDate).isBefore(today)) {
+      status = 'Overdue';
+    }
+
     const invoiceToSave = buildInvoice(nextInvoiceId, {
       ...form,
-      status: 'Paid', // change later
+      status,
     });
 
     // Prevent submit if invoice total is 0 or less
@@ -60,6 +78,8 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
 
     setLogoPreview(null);
     setIsPreview(false);
+    setMarkAsSent(false);
+    setReceivedPayment(false);
     onClose();
   };
 
@@ -202,14 +222,24 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
               </div>
 
               <label className='flex items-center gap-2 mt-2'>
-                <input type='checkbox' className='w-4 h-4' />
+                <input
+                  type='checkbox'
+                  className='w-4 h-4'
+                  checked={receivedPayment}
+                  onChange={e => setReceivedPayment(e.target.checked)}
+                />
                 <span className='text-xs dark:text-gray-300'>
                   I have received the payment.
                 </span>
               </label>
 
               <label className='flex items-center gap-2'>
-                <input type='checkbox' className='w-4 h-4' />
+                <input
+                  type='checkbox'
+                  className='w-4 h-4'
+                  checked={markAsSent}
+                  onChange={e => setMarkAsSent(e.target.checked)}
+                />
                 <span className='text-xs dark:text-gray-300'>
                   Mark it as sent.
                 </span>
