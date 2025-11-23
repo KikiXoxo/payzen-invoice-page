@@ -4,6 +4,7 @@ import InvoiceItemsList from './InvoiceItemsList';
 import { useInvoicesStore } from '../../stores/invoicesStore';
 import { emptyItem, buildInvoice } from '../../helpers/invoiceBuilder';
 import { clients } from '../../data/modalData';
+import { formatCurrency, formatInvoiceId } from '../../helpers/utils';
 
 const AddInvoiceModal = ({ isOpen, onClose }) => {
   const addInvoice = useInvoicesStore(state => state.addInvoice);
@@ -133,7 +134,7 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
                       Amount Due (USD)
                     </p>
                     <p className='text-3xl font-semibold text-gray-900 dark:text-gray-100'>
-                      ${buildInvoice(0, form).total.toFixed(2)}
+                      {formatCurrency(buildInvoice(0, form).total)}
                     </p>
                   </div>
                 </div>
@@ -182,7 +183,7 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
                   <div className='relative'>
                     <input
                       type='text'
-                      value={nextInvoiceId}
+                      value={formatInvoiceId(nextInvoiceId)}
                       onChange={e =>
                         updateField('invoiceNumber', e.target.value)
                       }

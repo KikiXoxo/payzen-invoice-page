@@ -1,8 +1,13 @@
 import { invoiceItems } from '../../data/modalData';
 import { FaGripVertical } from 'react-icons/fa';
 import { PiTrashSimple } from 'react-icons/pi';
+import { formatCurrency } from '../../helpers/utils';
 
 const InvoiceItemRow = ({ item, index, updateItem, removeItem }) => {
+  const formattedCurrency = formatCurrency(
+    item.quantity * item.rate * (1 - item.discount / 100)
+  );
+
   return (
     <tr className='border-b border-gray-200 dark:border-gray-700 relative'>
       {/* Drag handle */}
@@ -66,7 +71,7 @@ const InvoiceItemRow = ({ item, index, updateItem, removeItem }) => {
 
       {/* Amount */}
       <td className='w-[90px] py-2 px-2 text-right font-semibold text-gray-900 dark:text-gray-100'>
-        ${(item.quantity * item.rate * (1 - item.discount / 100)).toFixed(2)}
+        {formattedCurrency}
       </td>
 
       {/* Delete */}
