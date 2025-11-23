@@ -16,16 +16,31 @@ const InvoicesCard = () => {
   const setSelectedStatusTab = useInvoicesStore(
     state => state.setSelectedStatusTab
   );
+  const sortOrder = useInvoicesStore(state => state.sortOrder);
+  const setSortOrder = useInvoicesStore(state => state.setSortOrder);
 
   useEffect(() => {
     fetchInvoices();
   }, [fetchInvoices]);
 
-  // Filter invoices based on selected tab
+  // Filter invoices
   const filteredInvoices = useMemo(() => {
-    if (selectedStatusTab === 'All') return invoices;
-    return invoices.filter(inv => inv.status === selectedStatusTab);
-  }, [invoices, selectedStatusTab]);
+    let list = [...invoices];
+
+    // FILTER by tab
+    if (selectedStatusTab !== 'All') {
+      list = list.filter(inv => inv.status === selectedStatusTab);
+    }
+
+    // SORT by invoice ID
+    if (sortOrder === 'asc') {
+      list.sort((a, b) => (Number(a.id) || 0) - (Number(b.id) || 0));
+    } else if (sortOrder === 'desc') {
+      list.sort((a, b) => (Number(b.id) || 0) - (Number(a.id) || 0));
+    }
+
+    return list; // default API order
+  }, [invoices, selectedStatusTab, sortOrder]);
 
   // Counts to display
   const counts = loading
@@ -71,7 +86,7 @@ const InvoicesCard = () => {
             onChange={e => setSelectedStatusTab(e.target.value)}
             className='min-w-[140px] bg-white dark:bg-gray-800 border
              border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm
-             focus:outline-none focus:ring-0 transition'
+             focus:outline-none focus:ring-0 transition cursor-pointer'
           >
             <option value='All'>All Status</option>
             <option value='Outstanding'>Outstanding</option>
@@ -85,12 +100,20 @@ const InvoicesCard = () => {
           </div>
         </div>
 
+        {/* Sort by Invoice ID (Ascending and Descending) */}
         <div className='flex items-center gap-2'>
           <span className='text-gray-600 dark:text-gray-300 text-sm'>
             Sort by:
           </span>
-          <select className='min-w-[100px] bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm focus:outline-none focus:ring-0 transition'>
-            <option>Invoice#</option>
+
+          <select
+            value={sortOrder}
+            onChange={e => setSortOrder(e.target.value)}
+            className='bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm min-w-[150px] focus:outline-none focus:ring-0 transition cursor-pointer'
+          >
+            <option value='default'>Invoice#</option>
+            <option value='asc'>Invoice# (Asc)</option>
+            <option value='desc'>Invoice# (Desc)</option>
           </select>
         </div>
       </div>

@@ -13,8 +13,7 @@ export const useInvoicesStore = create(set => ({
     uncollectible: 0,
   },
 
-  selectedStatusTab: 'All', // default active tab
-
+  // Fetch invoices from API
   fetchInvoices: async () => {
     set({ loading: true, error: null });
 
@@ -49,5 +48,11 @@ export const useInvoicesStore = create(set => ({
     }
   },
 
+  // Status Tabs
+  selectedStatusTab: 'All', // default active tab
   setSelectedStatusTab: tab => set({ selectedStatusTab: tab }),
+
+  // Sorting
+  sortOrder: 'default',
+  setSortOrder: order => set({ sortOrder: order }),
 }));

@@ -18,7 +18,7 @@ const mockInvoices = [
     total: 950,
   },
   {
-    id: 12,
+    id: 18,
     clientName: 'Neon Labs',
     clientEmail: 'finance@neonlabs.io',
     issueDate: '2025-01-20',
