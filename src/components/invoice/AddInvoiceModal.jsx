@@ -1,4 +1,5 @@
 import { FaChevronDown, FaImage, FaCog } from 'react-icons/fa';
+import InvoiceItemsList from './InvoiceItemsList';
 
 const AddInvoiceModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
@@ -150,6 +151,8 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
               </div>
 
               <div className='mt-6 border-b-[3px] border-gray-600 dark:border-gray-400'></div>
+
+              <InvoiceItemsList />
             </div>
           </div>
 
