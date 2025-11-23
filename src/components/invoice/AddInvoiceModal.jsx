@@ -9,6 +9,7 @@ import { formatCurrency, formatInvoiceId } from '../../helpers/utils';
 const AddInvoiceModal = ({ isOpen, onClose }) => {
   const addInvoice = useInvoicesStore(state => state.addInvoice);
   const nextInvoiceId = useInvoicesStore(state => state.nextInvoiceId);
+  const [logoPreview, setLogoPreview] = useState(null);
 
   const [form, setForm] = useState({
     clientName: '',
@@ -75,7 +76,18 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
       items: [emptyItem()],
     });
 
+    setLogoPreview(null);
     onClose();
+  };
+
+  // Handle Logo Change
+  const handleLogoChange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Create a local URL to preview the image
+    const previewUrl = URL.createObjectURL(file);
+    setLogoPreview(previewUrl);
   };
 
   if (!isOpen) return null;
@@ -116,14 +128,43 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
             <div className='border border-gray-400 dark:border-gray-600 rounded-lg p-6'>
               <div className='flex justify-between items-start gap-6 w-full'>
                 {/* Logo Upload Box */}
-                <div className='w-[200px] h-[120px] bg-gray-50 dark:bg-gray-900 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-md flex flex-col items-center justify-center text-center px-2'>
-                  <FaImage className='text-3xl text-gray-500 dark:text-gray-400 mb-2' />
-                  <p className='text-xs text-gray-600 dark:text-gray-300'>
-                    Drag your Logo here, or
-                  </p>
-                  <button className='text-xs text-blue-600 dark:text-indigo-300 hover:text-blue-700'>
-                    select a file
-                  </button>
+                <div className='w-[200px] h-[120px] bg-gray-50 dark:bg-gray-900 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-md relative flex items-center justify-center text-center overflow-hidden px-2'>
+                  {/* Image preview if available */}
+                  {logoPreview && (
+                    <img
+                      src={logoPreview}
+                      alt='Logo Preview'
+                      className='absolute inset-0 w-full h-full object-contain opacity-40'
+                    />
+                  )}
+
+                  {/* Icon */}
+                  {!logoPreview && (
+                    <FaImage className='absolute w-24 h-24 text-gray-200 dark:text-gray-700' />
+                  )}
+
+                  <div className='relative z-10 flex flex-col items-center'>
+                    <p className='font-semibold text-xs text-gray-800 dark:text-gray-200'>
+                      Drag your Logo here, or
+                    </p>
+                    <button
+                      onClick={() =>
+                        document.getElementById('logoInput').click()
+                      }
+                      className='text-xs text-blue-600 dark:text-indigo-300 hover:text-blue-800 dark:hover:text-indigo-400 mt-1'
+                    >
+                      select a file
+                    </button>
+                  </div>
+
+                  {/* Hidden file input */}
+                  <input
+                    type='file'
+                    id='logoInput'
+                    accept='image/*'
+                    className='hidden'
+                    onChange={handleLogoChange}
+                  />
                 </div>
 
                 {/* Business Info */}
