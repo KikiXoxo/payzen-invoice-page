@@ -13,6 +13,8 @@ export const useInvoicesStore = create(set => ({
     uncollectible: 0,
   },
 
+  selectedStatusTab: 'All', // default active tab
+
   fetchInvoices: async () => {
     set({ loading: true, error: null });
 
@@ -46,4 +48,6 @@ export const useInvoicesStore = create(set => ({
       set({ loading: false });
     }
   },
+
+  setSelectedStatusTab: tab => set({ selectedStatusTab: tab }),
 }));
