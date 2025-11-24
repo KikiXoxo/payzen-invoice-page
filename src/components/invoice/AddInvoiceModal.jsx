@@ -26,20 +26,17 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
 
   const handleSaveAndSend = () => {
     if (!form.clientName || !form.issueDate || !form.dueDate) {
-      alert('Please select a client and fill in the dates');
+      toast.error('Please select a client and fill in the dates', {
+        theme: 'colored',
+      });
       return;
     }
 
     for (let itm of form.items) {
       if (!itm.description) {
-        alert('Please select all invoice items');
+        toast.error('Please select all invoice items', { theme: 'colored' });
         return;
       }
-    }
-
-    if (!markAsSent) {
-      alert('Mark invoice as sent first');
-      return;
     }
 
     // Determine status
@@ -59,9 +56,15 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
 
     // Prevent submit if invoice total is 0 or less
     if (!invoiceToSave.total || invoiceToSave.total <= 0) {
-      alert(
-        'Invoice total must be greater than $0.00. Add items or increase amounts.'
+      toast.error(
+        'Invoice total must be greater than $0. Add items or increase amount.',
+        { theme: 'colored' }
       );
+      return;
+    }
+
+    if (!markAsSent) {
+      toast.error('Mark invoice as sent first', { theme: 'colored' });
       return;
     }
 
