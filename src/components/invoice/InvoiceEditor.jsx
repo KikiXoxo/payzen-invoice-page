@@ -50,9 +50,9 @@ const InvoiceEditor = ({
 
   return (
     <div className='border border-gray-400 dark:border-gray-600 rounded-lg p-6'>
-      <div className='flex justify-between items-start gap-6 w-full'>
+      <div className='flex flex-row justify-between items-start gap-6 w-full md:flex-row'>
         {/* Logo Upload Box */}
-        <div className='w-[200px] h-[120px] bg-gray-50 dark:bg-gray-900 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-md relative flex items-center justify-center text-center overflow-hidden px-2'>
+        <div className='w-full md:w-[200px] h-[120px] bg-gray-50 dark:bg-gray-900 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-md relative flex items-center justify-center text-center overflow-hidden px-2'>
           {logoPreview ? (
             <img
               src={logoPreview}
@@ -85,7 +85,7 @@ const InvoiceEditor = ({
         </div>
 
         {/* Business Info */}
-        <div className='flex flex-col items-end text-right'>
+        <div className='flex flex-col items-end text-right ml-auto'>
           <p className='text-sm font-medium text-gray-800 dark:text-gray-100'>
             Kiki Studios
           </p>
@@ -113,7 +113,7 @@ const InvoiceEditor = ({
       </div>
 
       {/* Form Fields */}
-      <div className='mt-8 grid grid-cols-3 gap-x-8 gap-y-1'>
+      <div className='mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
         {/* Bill To */}
         <div>
           <label className='text-xs font-medium text-gray-700 dark:text-gray-300'>
@@ -165,7 +165,7 @@ const InvoiceEditor = ({
         </div>
 
         {/* Empty Spot */}
-        <div></div>
+        <div className='hidden lg:block'></div>
 
         {/* Due Date */}
         <div>

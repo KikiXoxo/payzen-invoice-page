@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FaChevronDown } from 'react-icons/fa';
+import { FaChevronDown, FaPlus } from 'react-icons/fa';
 import { useInvoicesStore } from '../../stores/invoicesStore';
 import { emptyItem, buildInvoice } from '../../helpers/invoiceBuilder';
 import InvoiceEditor from './InvoiceEditor';
@@ -97,7 +97,7 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
 
   return (
     <div className='fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50'>
-      <div className='bg-white dark:bg-gray-800 w-full max-w-6xl h-[90vh] rounded-xl shadow-lg flex flex-col overflow-hidden'>
+      <div className='bg-white dark:bg-gray-800 w-full max-w-6xl h-[90vh] rounded-xl shadow-lg flex flex-col overflow-hidden mx-2'>
         {/* Header */}
         <div className='flex items-center justify-between px-6 py-4 border-b border-gray-300 dark:border-gray-700 flex-shrink-0'>
           <h2 className='text-lg font-semibold text-gray-800 dark:text-gray-100'>
@@ -111,12 +111,21 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
             >
               Cancel
             </button>
-            <button className='px-4 py-2 border border-blue-600 dark:border-indigo-300 text-blue-600 dark:text-indigo-300 rounded-full text-sm'>
+            <button className='hidden md:block px-4 py-2 border border-blue-600 dark:border-indigo-300 text-blue-600 dark:text-indigo-300 rounded-full text-sm'>
               Save as Draft
             </button>
+
+            {/* Mobile version */}
             <button
               onClick={handleSaveAndSend}
-              className='flex items-center gap-2 px-4 py-2 bg-blue-600 dark:bg-indigo-300 text-white dark:text-gray-800 hover:bg-blue-700 dark:hover:bg-indigo-200 rounded-full text-sm'
+              className='md:hidden flex items-center justify-center w-8 h-8 bg-blue-600 dark:bg-indigo-300 text-white dark:text-gray-800 hover:bg-blue-700 dark:hover:bg-indigo-200 rounded-full'
+            >
+              <FaPlus className='text-sm' />
+            </button>
+            {/* Desktop version */}
+            <button
+              onClick={handleSaveAndSend}
+              className='hidden md:flex items-center gap-2 px-4 py-2 bg-blue-600 dark:bg-indigo-300 text-white dark:text-gray-800 hover:bg-blue-700 dark:hover:bg-indigo-200 rounded-full text-sm'
             >
               Save and Sent
               <FaChevronDown className='text-xs' />
@@ -125,8 +134,8 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
         </div>
 
         {/* Body */}
-        <div className='flex flex-1 overflow-y-auto'>
-          <div className='w-3/4 p-4'>
+        <div className='flex flex-col lg:flex-row flex-1 overflow-y-auto'>
+          <div className='w-full lg:w-3/4 p-4'>
             {isPreview ? (
               <InvoicePreview
                 form={form}
@@ -146,7 +155,7 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
           </div>
 
           {/* Customization Panel */}
-          <div className='w-1/4 py-4 pr-2 space-y-2'>
+          <div className='w-full lg:w-1/4 py-4 pr-2 space-y-2'>
             <div className='bg-gray-50 dark:bg-gray-900 rounded-md px-3 py-2 flex items-center justify-between'>
               <p className='text-xs font-semibold text-gray-700 dark:text-gray-200'>
                 Preview Invoice

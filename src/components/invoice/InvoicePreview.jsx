@@ -7,9 +7,9 @@ import dayjs from 'dayjs';
 const InvoicePreview = ({ form, logoPreview, nextInvoiceId }) => {
   return (
     <div className='border border-gray-400 dark:border-gray-600 rounded-lg p-6'>
-      <div className='flex justify-between items-start gap-6 w-full'>
+      <div className='flex flex-row justify-between items-start gap-6 w-full md:flex-row'>
         {/* Logo */}
-        <div className='w-[200px] h-[120px] rounded-md relative flex items-center justify-center text-center overflow-hidden px-2'>
+        <div className='w-full md:w-[200px] h-[120px] rounded-md relative flex items-center justify-center text-center overflow-hidden px-2'>
           {logoPreview ? (
             <img
               src={logoPreview}
@@ -22,7 +22,7 @@ const InvoicePreview = ({ form, logoPreview, nextInvoiceId }) => {
         </div>
 
         {/* Business Info */}
-        <div className='flex flex-col items-end text-right'>
+        <div className='flex flex-col items-end text-right ml-auto'>
           <p className='text-sm font-medium text-gray-800 dark:text-gray-100'>
             Kiki Studios
           </p>

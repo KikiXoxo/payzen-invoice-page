@@ -80,7 +80,7 @@ const InvoicesCard = () => {
 
       <div className='flex items-center justify-between gap-4 mb-4 border-b border-gray-300 dark:border-gray-700 transition'>
         {/* Active Tabs */}
-        <div className='flex items-start justify-start gap-6'>
+        <div className='flex items-start justify-start gap-4 md:gap-6'>
           {tabs.map(tab => (
             <div
               key={tab}
@@ -97,7 +97,7 @@ const InvoicesCard = () => {
         </div>
 
         {/* Search */}
-        <div className='flex items-center gap-2 text-gray-500 dark:text-gray-300 text-sm'>
+        <div className='hidden md:flex items-center gap-2 text-gray-500 dark:text-gray-300 text-sm'>
           <FaSearch />
           <span>Try invoice# or client name</span>
         </div>
@@ -106,7 +106,7 @@ const InvoicesCard = () => {
       {/* Dropdowns / Calendar / Sort */}
       <div className='flex items-center justify-between mb-2'>
         <div className='flex items-center gap-2'>
-          <select className='min-w-[140px] bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm focus:outline-none focus:ring-0 transition'>
+          <select className='hidden md:block min-w-[140px] bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm focus:outline-none focus:ring-0 transition'>
             <option>All Clients</option>
           </select>
 
@@ -114,7 +114,7 @@ const InvoicesCard = () => {
           <select
             value={selectedStatusTab}
             onChange={e => setSelectedStatusTab(e.target.value)}
-            className='min-w-[140px] bg-white dark:bg-gray-800 border
+            className='md:min-w-[140px] bg-white dark:bg-gray-800 border
              border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm
              focus:outline-none focus:ring-0 transition cursor-pointer'
           >
@@ -124,14 +124,14 @@ const InvoicesCard = () => {
             <option value='Uncollectible'>Uncollectible</option>
           </select>
 
-          <div className='min-w-[140px] flex items-center justify-between px-3 h-8 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 cursor-pointer select-none transition'>
+          <div className='hidden md:flex min-w-[140px] items-center justify-between px-3 h-8 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 cursor-pointer select-none transition'>
             <span className='text-sm'>All Time</span>
             <FaRegCalendarAlt className='text-gray-500 dark:text-gray-300' />
           </div>
         </div>
 
         {/* Sort by Invoice ID (Ascending and Descending) */}
-        <div className='flex items-center gap-2'>
+        <div className='flex items-center gap-1 md:gap-2'>
           <span className='text-gray-600 dark:text-gray-300 text-sm'>
             Sort by:
           </span>
@@ -139,7 +139,7 @@ const InvoicesCard = () => {
           <select
             value={sortOrder}
             onChange={e => setSortOrder(e.target.value)}
-            className='bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm min-w-[150px] focus:outline-none focus:ring-0 transition cursor-pointer'
+            className='bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm md:min-w-[150px] focus:outline-none focus:ring-0 transition cursor-pointer'
           >
             <option value='default'>Invoice#</option>
             <option value='asc'>Invoice# (Asc)</option>

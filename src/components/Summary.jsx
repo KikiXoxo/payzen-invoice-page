@@ -74,7 +74,7 @@ const Summary = () => {
             </div>
           </div>
 
-          <div className='flex flex-col justify-between'>
+          <div className='flex flex-col justify-between hidden lg:block'>
             <div className='flex items-center gap-2 text-gray-700 dark:text-gray-300 font-medium text-sm'>
               Last Month
               <FaChevronDown className='text-xs' />

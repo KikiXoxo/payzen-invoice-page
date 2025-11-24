@@ -19,7 +19,7 @@ const InvoicesList = ({ invoices, loading, error }) => {
 
   return (
     <div className='w-full overflow-x-auto'>
-      <table className='w-full text-xs text-left border-collapse dark:text-gray-300'>
+      <table className='w-full text-xs text-left border-collapse dark:text-gray-300 whitespace-nowrap'>
         {/* HEADERS */}
         <thead className='text-gray-600 dark:text-gray-300 font-medium border-b dark:border-gray-700 transition'>
           <tr>
