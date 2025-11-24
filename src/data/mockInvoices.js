@@ -79,6 +79,24 @@ const mockInvoices = [
     total: 710,
   },
   {
+    id: 19,
+    clientName: 'Johny Sun',
+    clientEmail: 'accounts@johny.com',
+    issueDate: '2025-02-05',
+    dueDate: '2025-03-15',
+    status: 'Overdue',
+    items: [
+      {
+        description: 'Brand Identity Package',
+        qty: 1,
+        rate: 1500,
+        discount: 0,
+        amount: 1500,
+      },
+    ],
+    total: 1500,
+  },
+  {
     id: 15,
     clientName: 'Nimbus Digital',
     clientEmail: 'billing@nimbus.io',
@@ -97,6 +115,24 @@ const mockInvoices = [
     total: 400,
   },
   {
+    id: 20,
+    clientName: 'Hyacinth Media',
+    clientEmail: 'accounts@hyacinth.com',
+    issueDate: '2025-01-05',
+    dueDate: '2025-01-15',
+    status: 'Outstanding',
+    items: [
+      {
+        description: 'Brand Identity Package',
+        qty: 1,
+        rate: 800,
+        discount: 0,
+        amount: 800,
+      },
+    ],
+    total: 800,
+  },
+  {
     id: 16,
     clientName: 'SkyNetix',
     clientEmail: 'accounts@skynetix.com',
@@ -113,6 +149,42 @@ const mockInvoices = [
       },
     ],
     total: 1200,
+  },
+  {
+    id: 21,
+    clientName: 'Trudy Goldman',
+    clientEmail: 'accounts@trudy.com',
+    issueDate: '2024-01-05',
+    dueDate: '2024-01-20',
+    status: 'Paid',
+    items: [
+      {
+        description: 'Brand Identity Package',
+        qty: 1,
+        rate: 2400,
+        discount: 0,
+        amount: 2400,
+      },
+    ],
+    total: 2400,
+  },
+  {
+    id: 22,
+    clientName: 'Sunny Roads',
+    clientEmail: 'accounts@sunny.com',
+    issueDate: '2023-01-05',
+    dueDate: '2023-01-15',
+    status: 'Paid',
+    items: [
+      {
+        description: 'Brand Identity Package',
+        qty: 1,
+        rate: 1950.5,
+        discount: 0,
+        amount: 1950.5,
+      },
+    ],
+    total: 1950.5,
   },
 ];
 
