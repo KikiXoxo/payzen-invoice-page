@@ -3,10 +3,22 @@ import MainLayout from './layout/MainLayout';
 import Invoices from './pages/Invoices';
 import Clients from './pages/Clients';
 import ServiceItems from './pages/ServiceItems';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <BrowserRouter>
+      <ToastContainer
+        position='top-right'
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+        theme='colored'
+      />
+
       <Routes>
         <Route path='/' element={<MainLayout />}>
           <Route index element={<Invoices />} />

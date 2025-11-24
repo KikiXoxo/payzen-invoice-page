@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { FaChevronDown, FaPlus } from 'react-icons/fa';
 import { useInvoicesStore } from '../../stores/invoicesStore';
 import { emptyItem, buildInvoice } from '../../helpers/invoiceBuilder';
+import { toast } from 'react-toastify';
 import InvoiceEditor from './InvoiceEditor';
 import InvoicePreview from './InvoicePreview';
 import dayjs from 'dayjs';
@@ -65,6 +66,7 @@ const AddInvoiceModal = ({ isOpen, onClose }) => {
     }
 
     addInvoice(invoiceToSave);
+    toast.info('Invoice added successfully!', { theme: 'colored' });
 
     // Reset form
     setForm({
