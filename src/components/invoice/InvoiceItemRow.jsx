@@ -2,6 +2,7 @@ import { invoiceItems } from '../../data/modalData';
 import { FaGripVertical } from 'react-icons/fa';
 import { PiTrashSimple } from 'react-icons/pi';
 import { formatCurrency } from '../../helpers/utils';
+import React from 'react';
 
 const InvoiceItemRow = ({ item, index, updateItem, removeItem, readOnly }) => {
   const formattedCurrency = formatCurrency(
@@ -109,4 +110,4 @@ const InvoiceItemRow = ({ item, index, updateItem, removeItem, readOnly }) => {
   );
 };
 
-export default InvoiceItemRow;
+export default React.memo(InvoiceItemRow);

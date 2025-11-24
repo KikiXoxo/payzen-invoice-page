@@ -1,3 +1,4 @@
+import React, { useMemo } from 'react';
 import InvoiceItemRow from './InvoiceItemRow';
 
 const InvoiceItemsList = ({
@@ -7,6 +8,19 @@ const InvoiceItemsList = ({
   removeItem,
   readOnly,
 }) => {
+  const rows = useMemo(() => {
+    return items.map((item, index) => (
+      <InvoiceItemRow
+        key={index}
+        item={item}
+        index={index}
+        updateItem={updateItem}
+        removeItem={removeItem}
+        readOnly={readOnly}
+      />
+    ));
+  }, [items, updateItem, removeItem, readOnly]);
+
   return (
     <div className='mt-4'>
       <table className='w-full border-collapse'>
@@ -22,18 +36,7 @@ const InvoiceItemsList = ({
           </tr>
         </thead>
 
-        <tbody>
-          {items.map((item, index) => (
-            <InvoiceItemRow
-              key={index}
-              item={item}
-              index={index}
-              updateItem={updateItem}
-              removeItem={removeItem}
-              readOnly={readOnly}
-            />
-          ))}
-        </tbody>
+        <tbody>{rows}</tbody>
       </table>
 
       {!readOnly && (
@@ -50,4 +53,4 @@ const InvoiceItemsList = ({
   );
 };
 
-export default InvoiceItemsList;
+export default React.memo(InvoiceItemsList);
